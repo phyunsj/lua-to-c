@@ -1,0 +1,660 @@
+
+
+static int l_cl_calc_freq (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	int in10;
+	int in;
+	unsigned int out;
+
+    STACK_DUMP(L);
+    
+	in10 =  luaL_checknumber ( L, 1 );
+	in =  luaL_checknumber ( L, 2 );
+
+    errcode =  cl_calc_freq(in10,in,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_pushnumber( L, out );
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_alert (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	int in10;
+	int in;
+	unsigned int inout;
+
+    STACK_DUMP(L);
+    
+	in10 =  luaL_checknumber ( L, 1 );
+	in =  luaL_checknumber ( L, 2 );
+	inout =  luaL_checknumber ( L, 3 );
+
+    errcode =  cl_calc_alert(in10,in,&inout);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_pushnumber( L, inout );
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_read (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_int16_t in10;
+	cl_uint16_t in;
+	cl_uint32_t out;
+
+    STACK_DUMP(L);
+    
+	in10 =  luaL_checknumber ( L, 1 );
+	in =  luaL_checknumber ( L, 2 );
+
+    errcode =  cl_calc_read(in10,in,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_pushnumber( L, out );
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_write (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_msg_t in;
+	cl_bus_t out;
+
+    STACK_DUMP(L);
+    
+	if (lua_type( L, 1 ) == LUA_TTABLE ) {
+		lua_getfield(L, 1, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+
+    errcode =  cl_calc_write(in,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_timer (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_msg_t in;
+	cl_bus_t out;
+
+    STACK_DUMP(L);
+    
+	if (lua_type( L, 1 ) == LUA_TTABLE ) {
+		lua_getfield(L, 1, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+
+    errcode =  cl_calc_timer(&in,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_filter (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_msg_t in;
+	cl_bus_t out1;
+	cl_bus_t out2;
+
+    STACK_DUMP(L);
+    
+	if (lua_type( L, 1 ) == LUA_TTABLE ) {
+		lua_getfield(L, 1, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+
+    errcode =  cl_calc_filter(&in,&out1,&out2);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out1.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out2.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 3;
+}
+
+
+static int l_cl_calc_serial (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_msg_t in1;
+	cl_msg_t in2;
+	cl_bus_t out;
+
+    STACK_DUMP(L);
+    
+	if (lua_type( L, 1 ) == LUA_TTABLE ) {
+		lua_getfield(L, 1, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in1.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in1.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in1.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+	if (lua_type( L, 2 ) == LUA_TTABLE ) {
+		lua_getfield(L, 2, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in2.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 2, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in2.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 2, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		in2.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+
+    errcode = 300; (void) cl_calc_serial(&in1,&in2,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 2;
+}
+
+
+static int l_cl_calc_servo (lua_State *L) {
+    
+    //check and fetch the arguments
+    int errcode = 0;
+    
+	cl_msg_t inout;
+	cl_bus_t out;
+
+    STACK_DUMP(L);
+    
+	if (lua_type( L, 1 ) == LUA_TTABLE ) {
+		lua_getfield(L, 1, "addr");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		inout.addr = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "flags");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		inout.flags = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+		lua_getfield(L, 1, "len");
+		STACK_DUMP(L);
+		if( lua_type(L, -1) == LUA_TNIL ) { 
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;}
+		inout.len = lua_tonumber(L, -1); lua_pop(L, 1);
+		STACK_DUMP(L);
+	} else {
+			errcode = 301; /* not supported types */
+			lua_pushnumber( L, errcode );
+			STACK_DUMP(L);
+			return 1;
+	}
+
+    errcode =  cl_calc_servo(&inout,&out);
+    
+    //push the results
+    lua_pushnumber( L, errcode ); // errcode first
+    STACK_DUMP(L);
+
+    
+	lua_newtable (L); /* create new table */
+	lua_pushstring(L, "addr");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, inout.addr);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "flags");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, inout.flags);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "len");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, inout.len);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_newtable (L);/* create new table */
+	lua_pushstring(L, "info");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.info);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "src");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.src);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "dst");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.dst);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "length");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.length);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "stride");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.stride);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+	lua_pushstring(L, "next");  /* push key */
+	STACK_DUMP(L);
+	lua_pushnumber(L, out.next);  /* push value */
+	STACK_DUMP(L);
+	lua_settable(L, -3);
+	STACK_DUMP(L);
+  
+    //return number of results
+    STACK_DUMP(L);
+    return 3;
+}
