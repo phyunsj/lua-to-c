@@ -12,16 +12,28 @@ Suggested readings for "calling C functions from Lua":
 
 `cl_calc.c` Just random funtions for the test. `C struct` is mapped to `lua table` and vice versa.
 
+## Code Generation
+
+Start with extracting `FuncDecl` by visiting AST (created by **pycparser**). 
+
+The following files are generated :
+
+- `CL_LUA.c`
+- `CL_LUA.include`
+
 ## Build & Run
 
->$ **make** or if you wish to display the virtual stack, **make debug**
+```
+$ make 
 $ lua -i -e "_PROMPT='lua$ '"
 Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio
 lua$
-lua$
 lua$ dofile("cl_calc_test.lua")
 ...
- lua$
+lua$
+```
+
+if you wish to display the virtual stack, type **make debug** instead
 
 ## Closing Remarks
 
