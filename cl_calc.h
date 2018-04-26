@@ -3,11 +3,9 @@
  * @author phyunsj@yahoo.com
  * @date April 2018
  * @brief File containing example of calc functions with vairous input/output types.
- * \n\n ONC RPC restricted us to use remote procedures that accept a single parameter and 
- * return a single parameter. Later versions might support multiple parameters.
  * \n\n The name of parameter informs where it belongs to : request or response.
- * \n 1. IDL should define a RPC request with [in] and [inout]
- * \n 2. IDL should define a RPC response with [inout] and [out]  
+ * \n 1. API request with [in] and [inout]
+ * \n 2. API response with [inout] and [out]  
  *
 **/
 #ifndef _CL_CALC_
